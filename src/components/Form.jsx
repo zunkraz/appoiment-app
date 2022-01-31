@@ -1,17 +1,18 @@
 import {v4 as uuidv4} from 'uuid';
-import { useEffect } from 'react';
-import { formActive } from '../helper';
+import { useEffect, useState } from 'react';
+// import { formActive } from '../helper';
 
 const Form = ({guardarCita,citas,guardarCitaActual,citaActual}) => {
     
 const handleChange = e => {
-    formActive(e)
     guardarCitaActual({
         ...citaActual,
         [e.target.name]:e.target.value
     }
     )
 }
+
+const [error,setError] = useState(true);
 
 const handleSubmit = e => {
     e.preventDefault();
@@ -34,7 +35,12 @@ const handleSubmit = e => {
 }
 
 useEffect(() => {
-    console.log(200)
+   
+    if(!Object.values(citaActual).includes('')){
+     setError(false)
+    }else{
+     setError(true);
+    }
 },[citaActual])
 
     return ( 
@@ -59,6 +65,7 @@ useEffect(() => {
                 name="mascota"
                 value={citaActual.mascota}
                 onChange={handleChange}
+                autoComplete='off'
                 />
                </div> 
 
@@ -72,6 +79,7 @@ useEffect(() => {
                 name="propietario"
                 value={citaActual.propietario}
                 onChange={handleChange}
+                autoComplete='off'
                 />
                 </div>
 
@@ -85,6 +93,7 @@ useEffect(() => {
                 name="email"
                 value={citaActual.email}
                 onChange={handleChange}
+                autoComplete='off'
                 />
                 </div>
 
@@ -97,6 +106,7 @@ useEffect(() => {
                 name="alta"
                 value={citaActual.alta}
                 onChange={handleChange}
+                autoComplete='off'
                 />
                 </div>
 
@@ -110,11 +120,12 @@ useEffect(() => {
                 name="sintomas"
                 value={citaActual.sintomas}
                 onChange={handleChange}
+                autoComplete='off'
                 />
                 </div>
                 <input type="submit" 
                 value="Agregar paciente"
-                className=" uppercase font-bold bg-indigo-600 text-white p-2 w-full rounded-md mt-4 hover:bg-indigo-800 cursor-pointer transition-all"
+                className={error ? "disabled:opacity-75 uppercase font-bold bg-indigo-300 p-2 w-full text-white mt-4 rounded-md" : " uppercase font-bold bg-indigo-600 text-white p-2 w-full rounded-md mt-4 hover:bg-indigo-800 cursor-pointer transition-all"}
                 />
             </form>
         </div>
